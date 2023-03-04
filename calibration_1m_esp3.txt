@@ -1,0 +1,27 @@
+Connected with result code 0
+esp3rssi -58.0
+esp3: -58
+esp3rssi -59.0
+esp3: -60
+esp3rssi -58.666666666666664
+esp3: -58
+esp3rssi -58.5
+esp3: -58
+esp3rssi -58.6
+esp3: -59
+esp3rssi -58.666666666666664
+esp3: -59
+esp3rssi -58.57142857142857
+esp3: -58
+esp3rssi -58.625
+esp3: -59
+esp3rssi -58.44444444444444
+esp3: -57
+esp3rssi -58.5
+esp3: -59
+esp3rssi -58.45454545454545
+esp3: -58
+esp3rssi -58.5
+esp3: -59
+esp3rssi -58.46153846153846
+esp3: -58
