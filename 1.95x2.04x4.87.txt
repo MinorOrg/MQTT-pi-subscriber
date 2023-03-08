@@ -1,4 +1,3 @@
-Connected with result code 0
 esp2rssi -65.0
 esp2: -65
 esp3rssi -68.0
