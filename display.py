@@ -1,8 +1,8 @@
 import sys, math
+import threading
 
 # Import and initialize pygame
 import pygame
-pygame.init()
 
 # Values
 screenSize = width, height = 800, 800
@@ -39,11 +39,7 @@ distanceFromESP1 = 2
 distanceFromESP2 = 2
 distanceFromESP3 = 2
 
-# Surface to draw the circles
-# sizeOfRectForRadiation = (distancePerPixel * 4, distancePerPixel * 4)
-radiationSurface1 = pygame.Surface(screenSize, pygame.SRCALPHA)
-radiationSurface2 = pygame.Surface(screenSize, pygame.SRCALPHA)
-radiationSurface3 = pygame.Surface(screenSize, pygame.SRCALPHA)
+
 
 def isDeviceOutOfBound(deviceCenter, deviceRadius):
     left = deviceCenter[0] - deviceRadius
@@ -71,6 +67,7 @@ def updatePixelPerDistance():
     pixelPerDistance *= scaleFactor
 
 def scale():
+    print("Scaled!!")
     global esp3pos, esp1pos, esp2pos
     global radiationSurface1, radiationSurface2, radiationSurface3
     global scaleFactor
@@ -91,17 +88,23 @@ def scale():
     esp2pos_scaled = esp2pos_scaled[0] + center[0], esp2pos_scaled[1] + center[1]
     esp3pos_scaled = esp3pos_scaled[0] + center[0], esp3pos_scaled[1] + center[1]
 
-# Create the screen
-screen = pygame.display.set_mode(screenSize)
-
 def display():
-    global scaleFactor, screen
-
+    pygame.init()
+    # Create the screen
+    screen = pygame.display.set_mode(screenSize)   
+    
+    global scaleFactor, pixelPerDistance, distanceFromESP1
     screen.fill(black)
+
+    # Surface to draw the circles
+    # sizeOfRectForRadiation = (distancePerPixel * 4, distancePerPixel * 4)
+    radiationSurface1 = pygame.Surface(screenSize, pygame.SRCALPHA)
+    radiationSurface2 = pygame.Surface(screenSize, pygame.SRCALPHA)
+    radiationSurface3 = pygame.Surface(screenSize, pygame.SRCALPHA)
+
+    scale()
     updatePixelPerDistance()
 
-    scaleFactor = 0.5
-    scale()
 
     # Draw a circle around the esp devices
     pygame.draw.circle(radiationSurface1, esp1Radiation, esp1pos_scaled, pixelPerDistance * distanceFromESP1 * scaleFactor)
@@ -121,17 +124,25 @@ def display():
     # Display the screen
     pygame.display.flip()
     # Main loop
-    while True:
+    running = True
+    while running:
 
         for event in pygame.event.get():
-            if event.type == pygame.QUIT: sys.exit()
-        
-
+            if event.type == pygame.QUIT:
+                running = False
+    
+    pygame.quit()
+    sys.exit()
 
 def show(dis1, dis2, dis3):
-    global distanceFromESP1, distanceFromESP2, distanceFromESP3
+    global distanceFromESP1, distanceFromESP2, distanceFromESP3, scaleFactor
     distanceFromESP1 = dis1
     distanceFromESP2 = dis2
     distanceFromESP3 = dis3
 
+    maxDist = max(dis1, dis2, dis3)
+    scaleFactor = 2 / maxDist
+    # print(scaleFactor)
+
     display()
+
