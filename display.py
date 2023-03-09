@@ -64,7 +64,7 @@ def calculateDistance(x1, y1, x2, y2):
 def updatePixelPerDistance():
     global pixelPerDistance
     pixelPerDistance = calculateDistance(center[0], center[1], esp1pos[0], esp1pos[1]) / 2
-    pixelPerDistance *= scaleFactor
+    # pixelPerDistance *= scaleFactor
 
 def scale():
     print("Scaled!!")
@@ -92,6 +92,7 @@ def display():
     pygame.init()
     # Create the screen
     screen = pygame.display.set_mode(screenSize)   
+    pygame.display.set_caption("WiFi Trilateration")
     
     global scaleFactor, pixelPerDistance, distanceFromESP1
     screen.fill(black)
@@ -140,9 +141,9 @@ def show(dis1, dis2, dis3):
     distanceFromESP2 = dis2
     distanceFromESP3 = dis3
 
-    maxDist = max(dis1, dis2, dis3)
+    maxDist = max(distanceFromESP1, distanceFromESP2, distanceFromESP3)
     scaleFactor = 2 / maxDist
-    # print(scaleFactor)
+    print(scaleFactor)
 
     display()
 

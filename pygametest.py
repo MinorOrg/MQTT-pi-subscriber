@@ -65,7 +65,7 @@ espdatas = {}
 
 def getespdata(distances):
     espdatas[distances] = readespfile_all(distances + ".txt") 
-    
+
 n = 2
 
 # Free space model
@@ -87,4 +87,4 @@ def getdistances(datas):
 
     return (esp1_d, esp2_d, esp3_d)
 
-getdistances("0.22x3.3x3.38")
+getdistances("3.59x5.3x2.6")
