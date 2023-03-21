@@ -6,11 +6,6 @@ import pygame
 
 # Values
 screenSize = width, height = 800, 800
-boundaryDimensions= {"left": 50,
-                     "right": width - 50,
-                     "top": 50,
-                     "bottom": height - 50,
-                     }
 scaleFactor = 1
 pixelPerDistance = 10
 
@@ -41,21 +36,8 @@ distanceFromESP3 = 2
 
 
 
-def isDeviceOutOfBound(deviceCenter, deviceRadius):
-    left = deviceCenter[0] - deviceRadius
-    right = deviceCenter[0] + deviceRadius
-    top = deviceCenter[1] - deviceRadius
-    bottom = deviceCenter[1] + deviceRadius
-
-    if(
-        left < boundaryDimensions["left"] or
-        right > boundaryDimensions["right"] or
-        top < boundaryDimensions["top"] or
-        bottom > boundaryDimensions["bottom"]
-    ):
-        return True
-    else:
-        return False
+# Radii of the radiations
+radii = []
 
 # Calculate distance between two points
 def calculateDistance(x1, y1, x2, y2):
@@ -67,7 +49,7 @@ def updatePixelPerDistance():
     # pixelPerDistance *= scaleFactor
 
 def scale():
-    print("Scaled!!")
+    # print("Scaled!!")
     global esp3pos, esp1pos, esp2pos
     global radiationSurface1, radiationSurface2, radiationSurface3
     global scaleFactor
@@ -88,42 +70,31 @@ def scale():
     esp2pos_scaled = esp2pos_scaled[0] + center[0], esp2pos_scaled[1] + center[1]
     esp3pos_scaled = esp3pos_scaled[0] + center[0], esp3pos_scaled[1] + center[1]
 
+def render():
+    print("rendering")
+
+def clearScreen(screen):
+    screen.fill("black")
+
+
 def display():
     pygame.init()
+
     # Create the screen
     screen = pygame.display.set_mode(screenSize)   
     pygame.display.set_caption("WiFi Trilateration")
     
-    global scaleFactor, pixelPerDistance, distanceFromESP1
-    screen.fill(black)
+    global scaleFactor, pixelPerDistance, distanceFromESP1, distanceFromESP2, distanceFromESP3
 
-    # Surface to draw the circles
-    # sizeOfRectForRadiation = (distancePerPixel * 4, distancePerPixel * 4)
-    radiationSurface1 = pygame.Surface(screenSize, pygame.SRCALPHA)
-    radiationSurface2 = pygame.Surface(screenSize, pygame.SRCALPHA)
-    radiationSurface3 = pygame.Surface(screenSize, pygame.SRCALPHA)
+    # Duration of animation
+    duration = 5
 
-    scale()
-    updatePixelPerDistance()
+    # Define frequency of the sine wave
+    frequency = 2 * math.pi / duration
 
+    radiationRadiusChange = 1
+    clock = pygame.time.Clock()
 
-    # Draw a circle around the esp devices
-    pygame.draw.circle(radiationSurface1, esp1Radiation, esp1pos_scaled, pixelPerDistance * distanceFromESP1 * scaleFactor)
-    pygame.draw.circle(radiationSurface2, esp2Radiation, esp2pos_scaled, pixelPerDistance * distanceFromESP2 * scaleFactor)
-    pygame.draw.circle(radiationSurface3, esp3Radiation, esp3pos_scaled, pixelPerDistance * distanceFromESP3 * scaleFactor)
-
-    screen.blit(radiationSurface1, (0,0))
-    screen.blit(radiationSurface2, (0,0))
-    screen.blit(radiationSurface3, (0,0))
-
-    # Draw the three ESPs
-    pygame.draw.circle(screen, esp1Color, esp1pos_scaled, 5)
-    pygame.draw.circle(screen, esp2Color, esp2pos_scaled, 5)
-    pygame.draw.circle(screen, esp3Color, esp3pos_scaled, 5)
-
-
-    # Display the screen
-    pygame.display.flip()
     # Main loop
     running = True
     while running:
@@ -131,6 +102,58 @@ def display():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+        
+        clearScreen(screen)
+        scale()
+        updatePixelPerDistance()
+
+        time = pygame.time.get_ticks() / 1000
+
+
+        # Surface to draw the circles
+        radiationSurface1 = pygame.Surface(screenSize, pygame.SRCALPHA)
+        radiationSurface2 = pygame.Surface(screenSize, pygame.SRCALPHA)
+        radiationSurface3 = pygame.Surface(screenSize, pygame.SRCALPHA)
+
+        # Draw a circle around the esp devices with a breathing pattern
+        radius1 = pixelPerDistance * distanceFromESP1 * scaleFactor
+        radius2 = pixelPerDistance * distanceFromESP2 * scaleFactor
+        radius3 = pixelPerDistance * distanceFromESP3 * scaleFactor  
+
+        radiationRange = (
+                        [radius1 * 0.97, radius1 * 1.03],
+                        [radius2 * 0.97, radius2 * 1.03],
+                        [radius3 * 0.97, radius3 * 1.03]
+                        )
+
+        radius1 = (radiationRange[0][1] - radiationRange[0][0]) / 2 * math.sin(frequency * time) + (radiationRange[0][1] + radiationRange[0][0]) / 2
+
+        radii = []
+
+        for i in range(3):
+            maxRadius = radiationRange[i][1]
+            minRadius = radiationRange[i][0]
+
+            radii.append((maxRadius - minRadius) / 2 * math.sin(frequency * time) + (radiationRange[i][1] + radiationRange[i][0]) / 2)
+
+        # Draw a circle around the esp devices
+        pygame.draw.circle(radiationSurface1, esp1Radiation, esp1pos_scaled, radii[0])
+        pygame.draw.circle(radiationSurface2, esp2Radiation, esp2pos_scaled, radii[1])
+        pygame.draw.circle(radiationSurface3, esp3Radiation, esp3pos_scaled, radii[2])
+
+        screen.blit(radiationSurface1, (0,0))
+        screen.blit(radiationSurface2, (0,0))
+        screen.blit(radiationSurface3, (0,0))
+
+        # Draw the three ESPs
+        pygame.draw.circle(screen, esp1Color, esp1pos_scaled, 5)
+        pygame.draw.circle(screen, esp2Color, esp2pos_scaled, 5)
+        pygame.draw.circle(screen, esp3Color, esp3pos_scaled, 5) 
+
+        # Display the screen
+        pygame.display.flip()
+
+        clock.tick(60)
     
     pygame.quit()
     sys.exit()
@@ -146,4 +169,3 @@ def show(dis1, dis2, dis3):
     print(scaleFactor)
 
     display()
-
