@@ -1,6 +1,6 @@
 import paho.mqtt.client as mqtt
 
-MQTT_ADDRESS = '192.168.0.101'
+MQTT_ADDRESS = '0.0.0.0'
 MQTT_USER = 'mosquitong'
 MQTT_PASSWORD = 'elong-mosquitong'
 MQTT_TOPIC_ESP = 'esp/+'
