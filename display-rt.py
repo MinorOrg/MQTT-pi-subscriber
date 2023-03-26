@@ -1,7 +1,6 @@
 import paho.mqtt.client as mqtt
 import sys
 import pygame
-import math
 
 MQTT_ADDRESS = '0.0.0.0'
 MQTT_USER = 'mosquitong'
@@ -13,11 +12,7 @@ MQTT_TOPIC_ESP3 = 'esp/ble3'
 
 testssid = "wifi"
 
-# Duration of animation
-duration = 5
 
-# Define frequency of the sine wave
-frequency = 2 * math.pi / duration
 
 
 pygame.init()
@@ -159,30 +154,13 @@ def on_message(client, userdata, msg):
     radius1_2 = esp1rssi_mobhaile * 200
     radius2_2 = esp2rssi_mobhaile * 200
     radius3_2 = esp3rssi_mobhaile * 200
-
-    radiationRange = (
-                        [radius1_1 * 0.97, radius1_1 * 1.03],
-                        [radius2_1 * 0.97, radius2_1 * 1.03],
-                        [radius3_1 * 0.97, radius3_1 * 1.03],
-                        [radius1_2 * 0.97, radius1_2 * 1.03],
-                        [radius2_2 * 0.97, radius2_2 * 1.03],
-                        [radius3_2 * 0.97, radius3_2 * 1.03]
-                        )
-    
-    radii = []
-
-    for i in range(6):
-            maxRadius = radiationRange[i][1]
-            minRadius = radiationRange[i][0]
-
-            radii.append((maxRadius - minRadius) / 2 * math.sin(frequency * time) + (radiationRange[i][1] + radiationRange[i][0]) / 2)
     # Draw a circle around the esp devices
-    pygame.draw.circle(radiationSurface1_1, esp1Radiation, esp1_1, radii[0])
-    pygame.draw.circle(radiationSurface2_1, esp2Radiation, esp2_1, radii[1])
-    pygame.draw.circle(radiationSurface3_1, esp3Radiation, esp3_1, radii[2])
-    pygame.draw.circle(radiationSurface1_2, esp1Radiation, esp1_1, radius[3])
-    pygame.draw.circle(radiationSurface2_2, esp2Radiation, esp2_1, radius[4])
-    pygame.draw.circle(radiationSurface3_2, esp3Radiation, esp3_1, radius[5])
+    pygame.draw.circle(radiationSurface1_1, esp1Radiation, esp1_1, radius1_1)
+    pygame.draw.circle(radiationSurface2_1, esp2Radiation, esp2_1, radius2_1)
+    pygame.draw.circle(radiationSurface3_1, esp3Radiation, esp3_1, radius3_1)
+    pygame.draw.circle(radiationSurface1_2, esp1Radiation, esp1_1, radius1_2)
+    pygame.draw.circle(radiationSurface2_2, esp2Radiation, esp2_1, radius2_2)
+    pygame.draw.circle(radiationSurface3_2, esp3Radiation, esp3_1, radius3_2)
     # Draw the surfaces to the screen
     screen.blit(radiationSurface1_1, (0,0))
     screen.blit(radiationSurface2_1, (0,0))
