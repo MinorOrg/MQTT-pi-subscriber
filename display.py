@@ -83,8 +83,24 @@ def display():
     # Create the screen
     screen = pygame.display.set_mode(screenSize)   
     pygame.display.set_caption("WiFi Trilateration")
+
+
     
     global scaleFactor, pixelPerDistance, distanceFromESP1, distanceFromESP2, distanceFromESP3
+
+    # Font for the text
+    font = pygame.font.Font(None, 36)
+    esp1Text = font.render("ESP1: " + str(round(distanceFromESP1, 2)) + "m", True, (255, 255, 255))
+    esp2Text = font.render("ESP2: " + str(round(distanceFromESP2, 2)) + "m", True, (255, 255, 255))
+    esp3Text = font.render("ESP3: " + str(round(distanceFromESP3, 2)) + "m", True, (255, 255, 255))
+
+    esp1Rect = esp1Text.get_rect()
+    esp2Rect = esp2Text.get_rect()
+    esp3Rect = esp3Text.get_rect()
+
+    esp1Rect.topleft = (10, 10)
+    esp2Rect.topleft = (10, esp1Rect.bottomleft[1] + 5)
+    esp3Rect.topleft = (10, esp2Rect.bottomleft[1] + 5)
 
     # Duration of animation
     duration = 5
@@ -149,6 +165,11 @@ def display():
         pygame.draw.circle(screen, esp1Color, esp1pos_scaled, 5)
         pygame.draw.circle(screen, esp2Color, esp2pos_scaled, 5)
         pygame.draw.circle(screen, esp3Color, esp3pos_scaled, 5) 
+
+        # Display the text
+        screen.blit(esp1Text, esp1Rect)
+        screen.blit(esp2Text, esp2Rect)
+        screen.blit(esp3Text, esp3Rect)
 
         # Display the screen
         pygame.display.flip()
