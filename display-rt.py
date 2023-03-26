@@ -130,13 +130,13 @@ def on_message(client, userdata, msg):
     device2Rect.centerx = 1050
     device2Rect.centery = 30
 
-    esp1Rect_1.topleft = (10, 30)
-    esp2Rect_1.topleft = (10, esp1Rect_1.bottomleft[1] + 5)
-    esp3Rect_1.topleft = (10, esp2Rect_1.bottomleft[1] + 5)
+    esp1Rect_1.topleft = (20, 30)
+    esp2Rect_1.topleft = (20, esp1Rect_1.bottomleft[1] + 5)
+    esp3Rect_1.topleft = (20, esp2Rect_1.bottomleft[1] + 5)
 
-    esp1Rect_2.topleft = (710, 30)
-    esp2Rect_2.topleft = (710, esp1Rect_2.bottomleft[1] + 5)
-    esp3Rect_2.topleft = (710, esp2Rect_2.bottomleft[1] + 5)
+    esp1Rect_2.topleft = (720, 30)
+    esp2Rect_2.topleft = (720, esp1Rect_2.bottomleft[1] + 5)
+    esp3Rect_2.topleft = (720, esp2Rect_2.bottomleft[1] + 5)
 
     # if running:    
     clearScreen(screen)
@@ -172,6 +172,12 @@ def on_message(client, userdata, msg):
     pygame.draw.circle(screen, esp1Color, esp1_1, 5)
     pygame.draw.circle(screen, esp2Color, esp2_1, 5)
     pygame.draw.circle(screen, esp3Color, esp3_1, 5)
+    pygame.draw.circle(screen, esp1Color, (esp1Rect_1.centery, esp1Rect_1.left - 10), 5)
+    pygame.draw.circle(screen, esp2Color, (esp2Rect_1.centery, esp2Rect_1.left - 10), 5)
+    pygame.draw.circle(screen, esp3Color, (esp3Rect_1.centery, esp3Rect_1.left - 10), 5)
+    pygame.draw.circle(screen, esp1Color, (esp1Rect_2.centery, esp1Rect_2.left - 10), 5)
+    pygame.draw.circle(screen, esp2Color, (esp2Rect_2.centery, esp2Rect_2.left - 10), 5)
+    pygame.draw.circle(screen, esp3Color, (esp3Rect_2.centery, esp3Rect_2.left - 10), 5)
     # Draw line between the screens
     pygame.draw.line(screen, white, (700, 0), (700, 700))
     # Display esps for second phone
