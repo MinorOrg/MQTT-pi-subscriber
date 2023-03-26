@@ -172,18 +172,19 @@ def on_message(client, userdata, msg):
     pygame.draw.circle(screen, esp1Color, esp1_1, 5)
     pygame.draw.circle(screen, esp2Color, esp2_1, 5)
     pygame.draw.circle(screen, esp3Color, esp3_1, 5)
-    pygame.draw.circle(screen, esp1Color, (esp1Rect_1.centery, esp1Rect_1.left - 10), 5)
-    pygame.draw.circle(screen, esp2Color, (esp2Rect_1.centery, esp2Rect_1.left - 10), 5)
-    pygame.draw.circle(screen, esp3Color, (esp3Rect_1.centery, esp3Rect_1.left - 10), 5)
-    pygame.draw.circle(screen, esp1Color, (esp1Rect_2.centery, esp1Rect_2.left - 10), 5)
-    pygame.draw.circle(screen, esp2Color, (esp2Rect_2.centery, esp2Rect_2.left - 10), 5)
-    pygame.draw.circle(screen, esp3Color, (esp3Rect_2.centery, esp3Rect_2.left - 10), 5)
+    pygame.draw.circle(screen, esp1Color, ( esp1Rect_1.left - 10, esp1Rect_1.centery), 5)
+    pygame.draw.circle(screen, esp2Color, ( esp2Rect_1.left - 10, esp2Rect_1.centery), 5)
+    pygame.draw.circle(screen, esp3Color, ( esp3Rect_1.left - 10, esp3Rect_1.centery), 5)
+    
     # Draw line between the screens
     pygame.draw.line(screen, white, (700, 0), (700, 700))
     # Display esps for second phone
     pygame.draw.circle(screen, esp1Color, esp1_2, 5)
     pygame.draw.circle(screen, esp2Color, esp2_2, 5)
     pygame.draw.circle(screen, esp3Color, esp3_2, 5)
+    pygame.draw.circle(screen, esp1Color, (esp1Rect_2.left - 10, esp1Rect_2.centery), 5)
+    pygame.draw.circle(screen, esp2Color, ( esp2Rect_2.left - 10, esp2Rect_2.centery), 5)
+    pygame.draw.circle(screen, esp3Color, ( esp3Rect_2.left - 10, esp3Rect_2.centery,), 5)
     # Display the text
     screen.blit(device1Text, device1Rect)
     screen.blit(device2Text, device2Rect)
