@@ -1,4 +1,6 @@
 import numpy as np
+import os
+# import matplotlib as plt
 
 
 esp1data=np.array([[-91.33333333, -74.8       , -86.14285714, -90.55555556,
@@ -44,6 +46,9 @@ esp3data=np.array([[-90.93333333, -93.6       , -89.        , -89.5       ,
        [-90.68181818, -84.69230769, -87.4       , -91.375     ,
         -95.55555556, -91.2       , -95.83870968]])
 
+
+        
+            
 scale = 0.5
 x = np.arange(7) * 0.5
 y = np.arange(7) * 0.5
@@ -52,21 +57,29 @@ esp_x1,esp_y1=(1,1)
 esp_x2,esp_y2=(3,5)
 esp_x3,esp_y3=(5,1)
 
+def f(x,a,b,c):
+    return 
+
 def distance(x1,y1,x2,y2):
     return np.sqrt((x2-x1)**2+(y2-y1)**2)
 
 def interpolate_distance(rssi,espdata,espx,espy):
+    for i in range(7):
+        for j in range(7):
+            abc=jhghj
     distances =[]
     for i in range(7):
         for j in range(7):
             d = distance(x[i],y[j],espx,espy)
-            distances.append((d,espdata[i][j]))
+            distances.append((espdata[i][j],d))
     distances.sort()
     #print(distances)
-    Distances = [x[0] for x in distances]
-    #print(Distances)
-    rssi_values=[x[1] for x in distances]
-    #print(rssi_values)
+    Distances = [x[1] for x in distances]
+    print(Distances)
+    rssi_values=[x[0] for x in distances]
+    print(rssi_values)
+    # plt.plot(Distances,rssi_values,)
+    # plt.show()
     dist = np.interp(rssi,rssi_values,Distances)
     return dist
 
