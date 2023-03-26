@@ -87,12 +87,12 @@ def clearScreen(screen):
 def main():
     pygame.init()
 
-    # mqtt_client = mqtt.Client()
-    # mqtt_client.on_connect = on_connect
-    # mqtt_client.on_message = on_message
-    # mqtt_client.username_pw_set(MQTT_USER, MQTT_PASSWORD)
-    # mqtt_client.connect(MQTT_ADDRESS, 1883, 60)
-    # mqtt_client.loop_forever()
+    mqtt_client = mqtt.Client()
+    mqtt_client.on_connect = on_connect
+    mqtt_client.on_message = on_message
+    mqtt_client.username_pw_set(MQTT_USER, MQTT_PASSWORD)
+    mqtt_client.connect(MQTT_ADDRESS, 1883, 60)
+    mqtt_client.loop_forever()
 
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption("Trilateration Visualizer")
